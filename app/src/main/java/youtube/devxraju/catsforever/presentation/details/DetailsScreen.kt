@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,7 +30,7 @@ import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding1
 import youtube.devxraju.catsforever.presentation.details.components.DetailsTopBar
 import youtube.devxraju.catsforever.theme.CatsAppTheme
 import youtube.devxraju.catsforever.util.DataState
-
+import androidx.compose.runtime.getValue
 @Composable
 fun DetailsScreen(
     cat: CatBreedsResponseItem,
@@ -44,7 +43,7 @@ fun DetailsScreen(
 
     println("DetailsScreen fun")
 
-    val isFav = remember(favUnfav) {
+    val isFav by remember(favUnfav) {
         mutableStateOf(
         favUnfav?.let {
             if(it is DataState.FavoriteUnfav) it.isFavorited else isFavoritedAlready
@@ -57,7 +56,7 @@ fun DetailsScreen(
             .statusBarsPadding()
     ) {
         DetailsTopBar(
-            isFav = isFav.value,
+            isFav = isFav,
             onBrowsingClick = {
                 Intent(Intent.ACTION_VIEW).also {
                     it.data = Uri.parse(cat.wikipedia_url)
