@@ -44,13 +44,7 @@ fun DetailsScreen(
 
     println("DetailsScreen fun")
 
-//    val commonViewModel: CommonViewModel = hiltViewModel()
-    var isFav = remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        println("LaunchedEffect1: ${isFav.value}")
-        isFav.value = isFavoritedAlready
-        println("LaunchedEffect2: ${isFav.value}")
-    }
+    val isFav = remember { mutableStateOf(isFavoritedAlready) }
 
     LaunchedEffect(key1 = favUnfav) {
         favUnfav?.let {
