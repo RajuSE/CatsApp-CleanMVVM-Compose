@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import youtube.devxraju.catsforever.presentation.navgraph.NavGraph
-import youtube.devxraju.catsforever.theme.CatsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import youtube.devxraju.catsforever.presentation.navgraph.NavGraph
 import youtube.devxraju.catsforever.presentation.navgraph.Route
+import youtube.devxraju.catsforever.theme.CatsAppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -36,7 +36,11 @@ class MainActivity : ComponentActivity() {
                         darkIcons = !isSystemInDarkMode
                     )
                 }
-                Box(modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .fillMaxSize()
+                ) {
                     NavGraph(startDestination = Route.startNav.route)
                 }
             }

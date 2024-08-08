@@ -5,36 +5,39 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
-import youtube.devxraju.catsforever.domain.usecases.cats.UnFavouriteCat
-import youtube.devxraju.catsforever.domain.usecases.cats.GetCatDetailsFromDB
-import youtube.devxraju.catsforever.domain.usecases.cats.UpsertCat
-import youtube.devxraju.catsforever.util.UIComponent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
+import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.usecases.cats.GetCatDetailsFromDB
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltViewModel
 class CommonViewModel @Inject constructor(
     private val getCatDetailsFromDBUseCase: GetCatDetailsFromDB,
-    ) : ViewModel() {
+) : ViewModel() {
 
     var currentCat by mutableStateOf<CatBreedsResponseItem?>(null)
         private set
 
+    var isCurrentCatFav by mutableStateOf<Boolean>(false)
+        private set
+
+
     init {
-        println("VMVM: init ${currentCat?.id}")
+        println("VMVM: init isFav:${isCurrentCatFav} id:${currentCat?.id} this:$this")
     }
 
-    fun onCatClicked(catBreedsResponseItem: CatBreedsResponseItem){
+    suspend fun onCatClicked(catBreedsResponseItem: CatBreedsResponseItem) {
         currentCat = catBreedsResponseItem
+        viewModelScope.async {
+            isCurrentCatFav = getCatDetailsFromDBUseCase.invoke(currentCat!!.id) != null
+        }.await()
         println("VMVM: ${currentCat?.id}");
     }
 
-   suspend fun isFavorited(cat: CatBreedsResponseItem):Boolean{
-       println("isFavorited called ${cat.id}");
-        return getCatDetailsFromDBUseCase.invoke(cat.id)!=null
+    suspend fun isFavorited(cat: CatBreedsResponseItem): Boolean {
+        println("isFavorited called ${cat.id}");
+        return getCatDetailsFromDBUseCase.invoke(cat.id) != null
     }
 
 }

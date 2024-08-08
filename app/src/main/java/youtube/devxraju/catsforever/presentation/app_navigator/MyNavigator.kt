@@ -20,26 +20,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.launch
 import youtube.devxraju.catsforever.R
-import youtube.devxraju.catsforever.presentation.favourites.FavouritesViewModel
+import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.presentation.app_navigator.components.BottomNavigationItem
+import youtube.devxraju.catsforever.presentation.app_navigator.components.CatsBottomNavigation
+import youtube.devxraju.catsforever.presentation.common.CommonViewModel
 import youtube.devxraju.catsforever.presentation.details.DetailsScreen
 import youtube.devxraju.catsforever.presentation.details.DetailsViewModel
+import youtube.devxraju.catsforever.presentation.favourites.FavouritesScreen
+import youtube.devxraju.catsforever.presentation.favourites.FavouritesViewModel
 import youtube.devxraju.catsforever.presentation.home.HomeRoute
 import youtube.devxraju.catsforever.presentation.home.HomeViewModel
 import youtube.devxraju.catsforever.presentation.navgraph.Route
-import youtube.devxraju.catsforever.presentation.app_navigator.components.BottomNavigationItem
-import youtube.devxraju.catsforever.presentation.app_navigator.components.CatsBottomNavigation
 import youtube.devxraju.catsforever.presentation.search.SearchRoute
 import youtube.devxraju.catsforever.presentation.search.SearchViewModel
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
-import youtube.devxraju.catsforever.presentation.common.CommonViewModel
-import youtube.devxraju.catsforever.presentation.favourites.FavouritesScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +52,7 @@ fun AppNavigator() {
             BottomNavigationItem(icon = R.drawable.img_paw, text = "Explore"),
             BottomNavigationItem(icon = R.drawable.img_fav, text = "Favourites"),
             BottomNavigationItem(icon = R.drawable.ic_search, text = "Search"),
-            )
+        )
     }
 
     val navController = rememberNavController()
@@ -77,11 +79,13 @@ fun AppNavigator() {
     Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
         if (isBottomBarVisible) {
             Column {
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(0.5.dp)
-                    .background
-                        (color = colorResource(id = R.color.placeholder)))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(0.5.dp)
+                        .background
+                            (color = colorResource(id = R.color.placeholder))
+                )
                 CatsBottomNavigation(
                     items = bottomNavigationItems,
                     selectedItem = selectedItem,
@@ -120,10 +124,10 @@ fun AppNavigator() {
                 HomeRoute(
                     cats = cats,
                     navigateToDetails = { cat ->
-                        commonViewModel.onCatClicked(cat)
-                        navigateToDetails(
-                            navController = navController,
-                        )
+                        commonViewModel.viewModelScope.launch {
+                            commonViewModel.onCatClicked(cat)
+                            navigateToDetails(navController = navController)
+                        }
                     }
                 )
             }
@@ -135,25 +139,27 @@ fun AppNavigator() {
                     state = state,
                     event = viewModel::onEvent,
                     navigateToDetails = { cat ->
-                        commonViewModel.onCatClicked(cat)
-                        navigateToDetails(
-                            navController = navController,
-                        )
+                        commonViewModel.viewModelScope.launch {
+                            commonViewModel.onCatClicked(cat)
+                            navigateToDetails(navController = navController)
+                        }
                     }
                 )
             }
             composable(route = Route.DetailsRoute.route) {
                 val viewModel: DetailsViewModel = hiltViewModel()
 //                navController.previousBackStackEntry?.savedStateHandle?.get<CatBreedsResponseItem?>("cat")
-                   commonViewModel.currentCat ?.let { cat ->
-                        DetailsScreen(
-                            cat = cat,
-                            event = viewModel::onEvent,
-                            navigateUp = {
-                                navController.navigateUp() },
-                            favUnfav = viewModel.favoriteUnfav
-                        )
-                    }
+                commonViewModel.currentCat?.let { cat ->
+                    DetailsScreen(
+                        cat = cat,
+                        event = viewModel::onEvent,
+                        navigateUp = {
+                            navController.navigateUp()
+                        },
+                        isFavoritedAlready = commonViewModel.isCurrentCatFav,
+                        favUnfav = viewModel.favoriteUnfav
+                    )
+                }
             }
             composable(route = Route.FavouriteRoute.route) {
                 val viewModel: FavouritesViewModel = hiltViewModel()
@@ -162,10 +168,10 @@ fun AppNavigator() {
                 FavouritesScreen(
                     state = state,
                     navigateToDetails = { cat ->
-                        commonViewModel.onCatClicked(cat)
-                        navigateToDetails(
-                            navController = navController,
-                        )
+                        commonViewModel.viewModelScope.launch {
+                            commonViewModel.onCatClicked(cat)
+                            navigateToDetails(navController = navController)
+                        }
                     }
                 )
             }
