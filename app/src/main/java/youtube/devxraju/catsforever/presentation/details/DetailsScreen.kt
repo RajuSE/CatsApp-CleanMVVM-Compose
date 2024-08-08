@@ -44,19 +44,11 @@ fun DetailsScreen(
 
     println("DetailsScreen fun")
 
-    val isFav = remember { mutableStateOf(isFavoritedAlready) }
-
-    LaunchedEffect(key1 = favUnfav) {
+    val isFav = remember(favUnfav) {
+        mutableStateOf(
         favUnfav?.let {
-            when (favUnfav) {
-                is DataState.FavoriteUnfav -> {
-                    println("LaunchedEffect3: ${favUnfav.isFavorited}")
-                    isFav.value = favUnfav.isFavorited
-                }
-
-                else -> Unit
-            }
-        }
+            if(it is DataState.FavoriteUnfav) it.isFavorited else isFavoritedAlready
+        } ?: isFavoritedAlready)
     }
 
     Column(
