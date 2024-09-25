@@ -1,4 +1,7 @@
 # CatsApp-CleanMVVM-Compose
+
+[![CatsShoppingApp CI/CD](https://github.com/RajuSE/CatsApp-CleanMVVM-Compose/actions/workflows/CatsAppCICD.yml/badge.svg)](https://github.com/RajuSE/CatsApp-CleanMVVM-Compose/actions/workflows/CatsAppCICD.yml)
+
 This project is demostrates Cats Shopping app build with Clean MVVM Architecture using Room, Hilt, Flow, Themes, Jetpack Compose for UI.
 
 
