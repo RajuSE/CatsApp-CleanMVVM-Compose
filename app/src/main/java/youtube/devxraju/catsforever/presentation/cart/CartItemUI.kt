@@ -94,7 +94,7 @@ fun CartCatCard(
 
                 Text(
                     modifier = Modifier.weight(1.5f),
-                    text = "${cat.quantity} X",
+                    text = "${if(cat.quantity<=0) 1 else cat.quantity} X",
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.ExtraBold),
                     color = colorResource(id = R.color.text_title),
                     textAlign = TextAlign.End,
