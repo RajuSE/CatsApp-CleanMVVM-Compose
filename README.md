@@ -1,5 +1,18 @@
 # CatsApp-CleanMVVM-Compose
-This project is demostrates Clean MVVM Architecture using Room, Hilt, Flow, Themes, Jetpack Compose for UI.
+This project is demostrates Cats Shopping app build with Clean MVVM Architecture using Room, Hilt, Flow, Themes, Jetpack Compose for UI.
+
+
+# Functionality
+ - HomScreen
+ - CartScreen
+ - Search
+ - Add to cart
+ - Increase or Decrease quantity
+ - Add or Remove favourites
+ - FavouritesScreen
+
+# APK:
+Link: https://drive.google.com/file/d/1tG_wiYokB-PT43hjwy4tUoLLM49IV1K5/view?usp=sharing
 
 # Preview
 YouTube video
