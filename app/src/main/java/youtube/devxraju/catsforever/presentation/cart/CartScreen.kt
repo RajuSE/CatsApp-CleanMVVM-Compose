@@ -96,7 +96,9 @@ fun CartScreen(
                         count = cartItems.size,
                     ) {
                         cartItems[it].let { cat ->
-                            CartCatCard(cat = cat, viewModel = viewModel, onClick = { onClick(cat) })
+                            CartCatCard(cat = cat, viewModel = viewModel, onClick = {
+                                //onClick(cat)
+                            })
                         }
                     }
                 }
