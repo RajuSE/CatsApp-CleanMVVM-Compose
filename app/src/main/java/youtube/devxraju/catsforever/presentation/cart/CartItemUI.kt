@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -81,9 +82,9 @@ fun CartCatCard(
                 .height(CatCardSize)
         ) {
             Spacer(modifier = Modifier.width(width = 5.dp))
-            Row() {
+            Row {
                 Text(
-                    modifier = Modifier.weight(8f),
+                    modifier = Modifier.weight(5f),
                     text = cat.name,
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.ExtraBold),
                     color = colorResource(id = R.color.text_title),
@@ -92,7 +93,7 @@ fun CartCatCard(
                 )
 
                 Surface(
-                    modifier = Modifier.wrapContentWidth(),
+                    modifier = Modifier.weight(3f).wrapContentWidth(),
                     color = cartColor,
                     shape = RoundedCornerShape(15.dp)
                 )
@@ -106,18 +107,13 @@ fun CartCatCard(
                         textAlign = TextAlign.End,
                         maxLines = 1,
                         modifier = Modifier
-                            .weight(3f)
                             .padding(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 2.dp),
                     )
                 }
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
 
-                CartItemRow(cat,viewModel)
+
             }
+            CartItemRow(cat,viewModel)
             Spacer(modifier = Modifier.width(width = 15.dp))
         }
     }
@@ -131,8 +127,9 @@ fun CartItemRow(
 ) {
     println("CartItemRow")
     Row(
-        modifier = Modifier
+        modifier = Modifier.fillMaxWidth()
             .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -143,10 +140,11 @@ fun CartItemRow(
                 fontStyle = FontStyle.Italic
             ), modifier = Modifier.padding(start = 5.dp)
         )
-        Spacer(modifier = Modifier.width(5.dp))
 
-        IconButton(modifier = Modifier
-            .border(1.dp, green, shape = CircleShape),onClick = { viewModel.increaseQty(cartItem)}) {
+        IconButton(modifier = Modifier.padding(start = 5.dp)
+            .border(2.dp, green, shape = CircleShape)
+            .size(36.dp),
+            onClick = { viewModel.increaseQty(cartItem)}) {
             Icon(Icons.Filled.KeyboardArrowUp, tint = green, contentDescription = "Increase Quantity")
         }
         Spacer(modifier = Modifier.width(5.dp))
@@ -155,21 +153,25 @@ fun CartItemRow(
             text = "${if(cartItem.quantity<=0) 1 else cartItem.quantity}",
 
             style = MaterialTheme.typography.bodyMedium.copy(
-                fontWeight = FontWeight.SemiBold,
-                fontStyle = FontStyle.Italic
+                fontWeight = FontWeight.ExtraBold,
+                fontStyle = FontStyle.Normal
             ), modifier = Modifier.padding(3.dp)
         )
         Spacer(modifier = Modifier.width(5.dp))
 
         IconButton(modifier = Modifier
-            .border(1.dp, Color.Red, shape = CircleShape),
+            .border(1.dp, Color.Red, shape = CircleShape)
+            .size(36.dp),
             onClick = { viewModel.decreaseQty(cartItem) }) {
             Icon(Icons.Filled.KeyboardArrowDown, tint = Color.Red, contentDescription = "Decrease Quantity")
         }
         Spacer(modifier = Modifier.width(5.dp))
-        IconButton(onClick = { viewModel.removeItem(cartItem) }) {
+        IconButton(
+            modifier = Modifier.weight(1f),
+            onClick = { viewModel.removeItem(cartItem = cartItem) }) {
             Icon(Icons.Default.Delete, contentDescription = "Remove Item")
         }
+
     }
 }
 

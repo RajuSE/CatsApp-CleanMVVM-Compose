@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import youtube.devxraju.catsforever.R
 import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
 import youtube.devxraju.catsforever.presentation.Dimens.ExtraSmallPadding
+import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding0
 import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding1
 import youtube.devxraju.catsforever.presentation.common.EmptyScreen
 import youtube.devxraju.catsforever.presentation.details.components.DetailsTopBar
@@ -62,10 +63,17 @@ fun CartScreen(
 
 
         if (cartItems.isEmpty()) {
-            EmptyScreen(noItemsUI = true)
+            Column {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back_arrow),
+                        contentDescription = null,
+                    )
+                }
+                EmptyScreen(noItemsUI = true)
+            }
         } else {
             Column {
-
                 Row {
 
                     IconButton(onClick = onBack) {
@@ -74,6 +82,7 @@ fun CartScreen(
                             contentDescription = null,
                         )
                     }
+
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
                         text = "Total Cost: $totalCost Rs",
@@ -88,9 +97,8 @@ fun CartScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = MediumPadding1),
+                        .padding(horizontal = MediumPadding0),
                     verticalArrangement = Arrangement.spacedBy(MediumPadding1),
-                    contentPadding = PaddingValues(all = ExtraSmallPadding)
                 ) {
                     items(
                         count = cartItems.size,
