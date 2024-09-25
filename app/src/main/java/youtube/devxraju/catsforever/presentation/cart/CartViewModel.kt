@@ -3,12 +3,14 @@ package youtube.devxraju.catsforever.presentation.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
-import youtube.devxraju.catsforever.data.remote.dto.CartItem
 import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
 import youtube.devxraju.catsforever.domain.usecases.cart.GetAllCartItemsUseCase
 import youtube.devxraju.catsforever.domain.usecases.cart.RemoveFromCartUsecase
@@ -31,7 +33,7 @@ class CartViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             println("init cvm")
-            getAllCartItemsUseCase().collectLatest { items ->
+            getAllCartItemsUseCase.invoke().collectLatest { items ->
                 println("collect getCartItems $items")
                 _cartItems.value = items
                 _totalCost.value = items.sumOf { it.price*(if(it.quantity==0) 1 else it.quantity) }
@@ -40,9 +42,15 @@ class CartViewModel @Inject constructor(
     }
 
 
+   fun onEvent(event:CartEvent){
+       when(event){
+           is CartEvent.IncreaseQuantity -> increaseQty(cartItem = event.item)
+           is CartEvent.DecreaseQuantity -> decreaseQty(event.item)
+           is CartEvent.RemoveItem -> removeItem(event.item)
+       }
+   }
 
-
-    fun increaseQty(cartItem: CatBreedsResponseItem) {
+    private fun increaseQty(cartItem: CatBreedsResponseItem) {
         viewModelScope.launch {
 
             updateQtyCartUsecase.invoke(
@@ -53,7 +61,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun decreaseQty(cartItem: CatBreedsResponseItem) {
+    private fun decreaseQty(cartItem: CatBreedsResponseItem) {
         viewModelScope.launch {
             if(cartItem.quantity <= 1) return@launch
 
@@ -66,14 +74,12 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun removeItem(cartItem: CatBreedsResponseItem) {
+    private fun removeItem(cartItem: CatBreedsResponseItem) {
         viewModelScope.launch {
 
-            removeFromCartUsecase.invoke(
-                cartItem,
-            )
+            removeFromCartUsecase.invoke(cartItem)
 
-            getAllCartItemsUseCase().collectLatest { items ->
+            getAllCartItemsUseCase.invoke().collectLatest { items ->
                 println("collect getCartItems $items")
                 _cartItems.value = items
                 _totalCost.value = items.sumOf { it.price*(if(it.quantity==0) 1 else it.quantity) }
