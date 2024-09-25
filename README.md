@@ -15,7 +15,7 @@ This project is demostrates Cats Shopping app build with Clean MVVM Architecture
  - FavouritesScreen
 
 # APK:
-Link: https://drive.google.com/file/d/1tG_wiYokB-PT43hjwy4tUoLLM49IV1K5/view?usp=sharing
+Get the latest APK at https://github.com/RajuSE/CatsApp-CleanMVVM-Compose/actions
 
 # Preview
 YouTube video
