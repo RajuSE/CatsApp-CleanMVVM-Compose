@@ -76,7 +76,7 @@ fun CartCatCard(
         )
         Spacer(modifier = Modifier.width(width = 10.dp))
         Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
+            verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .padding(horizontal = ExtraSmallPadding)
                 .height(CatCardSize)
@@ -88,7 +88,17 @@ fun CartCatCard(
                     text = cat.name,
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.ExtraBold),
                     color = colorResource(id = R.color.text_title),
-                    maxLines = 2,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    modifier = Modifier.weight(1.5f),
+                    text = "${cat.quantity} X",
+                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.ExtraBold),
+                    color = colorResource(id = R.color.text_title),
+                    textAlign = TextAlign.End,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
 
@@ -140,6 +150,7 @@ fun CartItemRow(
                 fontStyle = FontStyle.Italic
             ), modifier = Modifier.padding(start = 5.dp)
         )
+        Spacer(modifier = Modifier.width(5.dp))
 
         IconButton(modifier = Modifier.padding(start = 5.dp)
             .border(2.dp, green, shape = CircleShape)
@@ -147,7 +158,7 @@ fun CartItemRow(
             onClick = { viewModel.increaseQty(cartItem)}) {
             Icon(Icons.Filled.KeyboardArrowUp, tint = green, contentDescription = "Increase Quantity")
         }
-        Spacer(modifier = Modifier.width(5.dp))
+        Spacer(modifier = Modifier.width(7.dp))
 
         Text(
             text = "${if(cartItem.quantity<=0) 1 else cartItem.quantity}",
@@ -157,7 +168,7 @@ fun CartItemRow(
                 fontStyle = FontStyle.Normal
             ), modifier = Modifier.padding(3.dp)
         )
-        Spacer(modifier = Modifier.width(5.dp))
+        Spacer(modifier = Modifier.width(7.dp))
 
         IconButton(modifier = Modifier
             .border(1.dp, Color.Red, shape = CircleShape)
