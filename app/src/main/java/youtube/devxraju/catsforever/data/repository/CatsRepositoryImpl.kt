@@ -21,7 +21,7 @@ class CatsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                CatsPagingSource(catsApi = catsApi)
+                CatsPagingSource(catsApi = catsApi, catsDao = catsDao)
             }
         ).flow
     }

@@ -22,7 +22,8 @@ import youtube.devxraju.catsforever.theme.CatsAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsTopBar(
-    isFav:Boolean,
+    isFav:Boolean = false,
+    isBackOnlyTopbar:Boolean=false,
     onBrowsingClick: () -> Unit,
     onShareClick: () -> Unit,
     onFavouriteClick: () -> Unit,
@@ -46,6 +47,7 @@ fun DetailsTopBar(
             }
         },
         actions = {
+            if(isBackOnlyTopbar)return@TopAppBar
 
             IconButton(onClick = onFavouriteClick) {
                 Icon(

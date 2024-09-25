@@ -46,5 +46,9 @@ data class CatBreedsResponseItem(
     val vetstreet_url: String?,
     val vocalisation: Int,
     val wikipedia_url: String,
+    val quantity:Int,
+    var price:Int,
+    val isAddedToCart: Int,
+    val isFavourited:Int
 ) : Parcelable
 

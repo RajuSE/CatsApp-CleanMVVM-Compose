@@ -1,7 +1,5 @@
 package youtube.devxraju.catsforever.util
 
-object Constants {
 
-    const val BASE_URL = "https://api.thecatapi.com/"
-
-}
+const val IMG_URL = "https://cdn2.thecatapi.com/images/"
+const val BASE_URL = "https://api.thecatapi.com/"

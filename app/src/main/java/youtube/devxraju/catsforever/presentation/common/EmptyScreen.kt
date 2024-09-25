@@ -33,7 +33,7 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 
 @Composable
-fun EmptyScreen(error: LoadState.Error? = null) {
+fun EmptyScreen(error: LoadState.Error? = null, noItemsUI:Boolean = false) {
 
     var message by remember {
         mutableStateOf(parseErrorMessage(error = error))
@@ -43,7 +43,10 @@ fun EmptyScreen(error: LoadState.Error? = null) {
         mutableStateOf(R.drawable.img_error)
     }
 
-    if (error == null){
+    if (noItemsUI){
+        message = "No items in the Cart"
+        icon = R.drawable.img_no_favorites
+    }else if (error == null){
         message = "No favourites added yet"
         icon = R.drawable.img_no_favorites
     }

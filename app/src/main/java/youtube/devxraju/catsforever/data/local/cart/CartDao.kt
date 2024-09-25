@@ -13,7 +13,7 @@ import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
 
 
 @Dao
-interface CatsDao {
+interface CartDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(cat: CatBreedsResponseItem)
@@ -21,28 +21,15 @@ interface CatsDao {
     @Delete
     suspend fun delete(cat: CatBreedsResponseItem)
 
-    @Query("UPDATE CatBreedsResponseItem SET isFavourited=0 WHERE id=:id")
-    suspend fun unFavouriteCat(id: String): Int
-
-    @Query("SELECT * FROM CatBreedsResponseItem WHERE isFavourited=1")
+    @Query("SELECT * FROM CatBreedsResponseItem")
     fun getCats(): Flow<List<CatBreedsResponseItem>>
 
-    @Query("UPDATE CatBreedsResponseItem SET isAddedToCart=1 WHERE id=:id")
-    suspend fun markAddToCart(id: String): Int
 
-    @Query("UPDATE CatBreedsResponseItem SET isAddedToCart=0 WHERE id=:id")
-    suspend fun removeAddToCart(id: String): Int
-
-    @Query("UPDATE CatBreedsResponseItem SET quantity=:qty WHERE id=:id")
-    suspend fun updateQty(id: String, qty:Int): Int
     @Query("SELECT * FROM CatBreedsResponseItem WHERE isAddedToCart=1")
     fun getCartCats(): Flow<List<CatBreedsResponseItem>>
 
     @Query("SELECT * FROM CatBreedsResponseItem WHERE id=:id")
     suspend fun getCat(id: String): CatBreedsResponseItem?
-
-    @Query("SELECT * FROM CatBreedsResponseItem WHERE id=:id and isFavourited=1")
-    suspend fun getFavoritedCat(id: String): CatBreedsResponseItem?
 
 }
 

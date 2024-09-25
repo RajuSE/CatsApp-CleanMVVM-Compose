@@ -13,6 +13,7 @@ sealed class Route(
     object SearchRoute : Route(route = "SearchRoute")
 
     object FavouriteRoute : Route(route = "FavouriteRoute")
+    object CartRoute : Route(route = "CartRoute")
 
     object DetailsRoute : Route(route = "DetailsRoute")
 

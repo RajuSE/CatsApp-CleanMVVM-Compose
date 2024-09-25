@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import youtube.devxraju.catsforever.data.local.CatsDao
 import youtube.devxraju.catsforever.data.local.CatsDatabase
 import youtube.devxraju.catsforever.data.remote.CatsApi
-import youtube.devxraju.catsforever.util.Constants.BASE_URL
+import youtube.devxraju.catsforever.util.BASE_URL
 import javax.inject.Singleton
 
 @Module
@@ -48,5 +48,7 @@ object AppModule {
     fun provideDao(
         catsDatabase: CatsDatabase
     ): CatsDao = catsDatabase.catsDao
+
+
 
 }

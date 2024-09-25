@@ -24,8 +24,14 @@ class SearchCatsPagingSource(
             println("searchCats called q:$searchQuery")
             val catsResponse = api.searchCats(searchQuery = searchQuery)
 
+            val cats = catsResponse.distinctBy { it.id } //Remove duplicates
+            val catsMutable=cats.toMutableList()
+            for((i,v) in catsMutable.withIndex()){
+                catsMutable[i].price = (i+1)*100+(i+1)*(i+1)
+            }
+
             LoadResult.Page(
-                data = catsResponse,
+                data = catsMutable,
                 nextKey = null,//if (totalCount == 10) null else page + 1,
                 prevKey = null
             )

@@ -1,19 +1,25 @@
-package youtube.devxraju.catsforever.presentation.home
+package youtube.devxraju.catsforever.presentation.cart
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,20 +37,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import youtube.devxraju.catsforever.R
 import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
 import youtube.devxraju.catsforever.presentation.Dimens.CatCardSize
 import youtube.devxraju.catsforever.presentation.Dimens.ExtraSmallPadding
-import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding3
 import youtube.devxraju.catsforever.theme.CatsAppTheme
 import youtube.devxraju.catsforever.theme.cartColor
+import youtube.devxraju.catsforever.theme.green
 import youtube.devxraju.catsforever.util.IMG_URL
 
+
 @Composable
-fun CatCard(
+fun CartCatCard(
     modifier: Modifier = Modifier,
+    viewModel:CartViewModel,
     cat: CatBreedsResponseItem,
     onClick: (() -> Unit)? = null
 ) {
@@ -85,7 +94,8 @@ fun CatCard(
                 Surface(
                     modifier = Modifier.wrapContentWidth(),
                     color = cartColor,
-                    shape = RoundedCornerShape(15.dp))
+                    shape = RoundedCornerShape(15.dp)
+                )
                 {
                     Text(
                         text = cat.price.toString() + " Rs",
@@ -95,34 +105,81 @@ fun CatCard(
                         ),
                         textAlign = TextAlign.End,
                         maxLines = 1,
-                        modifier = Modifier.weight(3f)
+                        modifier = Modifier
+                            .weight(3f)
                             .padding(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 2.dp),
-                        )
+                    )
                 }
             }
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
             ) {
-                Text(
-                    text = cat.description,
-                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                    color = colorResource(id = R.color.body),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
 
+                CartItemRow(cat,viewModel)
             }
             Spacer(modifier = Modifier.width(width = 15.dp))
         }
     }
 }
 
+
+@Composable
+fun CartItemRow(
+    cartItem: CatBreedsResponseItem,
+    viewModel: CartViewModel,
+) {
+    println("CartItemRow")
+    Row(
+        modifier = Modifier
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Text(
+            text = "Qty:",
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = FontWeight.SemiBold,
+                fontStyle = FontStyle.Italic
+            ), modifier = Modifier.padding(start = 5.dp)
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+
+        IconButton(modifier = Modifier
+            .border(1.dp, green, shape = CircleShape),onClick = { viewModel.increaseQty(cartItem)}) {
+            Icon(Icons.Filled.KeyboardArrowUp, tint = green, contentDescription = "Increase Quantity")
+        }
+        Spacer(modifier = Modifier.width(5.dp))
+
+        Text(
+            text = "${if(cartItem.quantity<=0) 1 else cartItem.quantity}",
+
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = FontWeight.SemiBold,
+                fontStyle = FontStyle.Italic
+            ), modifier = Modifier.padding(3.dp)
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+
+        IconButton(modifier = Modifier
+            .border(1.dp, Color.Red, shape = CircleShape),
+            onClick = { viewModel.decreaseQty(cartItem) }) {
+            Icon(Icons.Filled.KeyboardArrowDown, tint = Color.Red, contentDescription = "Decrease Quantity")
+        }
+        Spacer(modifier = Modifier.width(5.dp))
+        IconButton(onClick = { viewModel.removeItem(cartItem) }) {
+            Icon(Icons.Default.Delete, contentDescription = "Remove Item")
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun CatCardPreview() {
     CatsAppTheme(dynamicColor = false) {
-        CatCard(
+        CartCatCard(
             cat = CatBreedsResponseItem(
                 adaptability = 6625,
                 affection_level = 7976,
@@ -164,7 +221,8 @@ fun CatCardPreview() {
                 price = 840,
                 isAddedToCart = 7722,
                 isFavourited = 0
-            )
+            ), modifier =Modifier,
+            viewModel = hiltViewModel(), onClick = {}
         )
     }
 }

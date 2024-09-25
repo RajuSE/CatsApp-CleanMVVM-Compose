@@ -8,9 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,12 +33,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import youtube.devxraju.catsforever.R
 import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding1
 import youtube.devxraju.catsforever.presentation.app_navigator.components.BottomNavigationItem
 import youtube.devxraju.catsforever.presentation.app_navigator.components.CatsBottomNavigation
+import youtube.devxraju.catsforever.presentation.cart.CartScreen
+import youtube.devxraju.catsforever.presentation.cart.CartViewModel
 import youtube.devxraju.catsforever.presentation.common.CommonViewModel
+import youtube.devxraju.catsforever.presentation.details.DetailsEvent
 import youtube.devxraju.catsforever.presentation.details.DetailsScreen
 import youtube.devxraju.catsforever.presentation.details.DetailsViewModel
 import youtube.devxraju.catsforever.presentation.favourites.FavouritesScreen
@@ -42,6 +53,7 @@ import youtube.devxraju.catsforever.presentation.home.HomeViewModel
 import youtube.devxraju.catsforever.presentation.navgraph.Route
 import youtube.devxraju.catsforever.presentation.search.SearchRoute
 import youtube.devxraju.catsforever.presentation.search.SearchViewModel
+import youtube.devxraju.catsforever.theme.cartColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,7 +123,21 @@ fun AppNavigator() {
 
             }
         }
-    }) {
+    },
+        floatingActionButton = {
+
+            if(isBottomBarVisible)
+            FloatingActionButton(
+                modifier = Modifier
+                    .padding(bottom = 8.dp),
+                containerColor = cartColor,
+                onClick = { navController.navigate(Route.CartRoute.route) },
+            ){
+                Icon(Icons.Filled.ShoppingCart, "")
+            }
+        }
+
+    ) {
         val bottomPadding = it.calculateBottomPadding()
         NavHost(
             navController = navController,
@@ -148,6 +174,17 @@ fun AppNavigator() {
             }
             composable(route = Route.DetailsRoute.route) {
                 val viewModel: DetailsViewModel = hiltViewModel()
+                val openCartEvent by viewModel.openCart.collectAsState(initial = false)
+
+                LaunchedEffect(key1 = Unit) {
+                    viewModel.openCart.collectLatest {
+                        println("openCart:$it")
+                    }
+                }
+                if(openCartEvent){
+                    navController.navigate(Route.CartRoute.route)
+                    viewModel.onEvent(DetailsEvent.RemoveOpenCartSideEf)
+                }
 //                navController.previousBackStackEntry?.savedStateHandle?.get<CatBreedsResponseItem?>("cat")
                 commonViewModel.currentCat?.let { cat ->
                     DetailsScreen(
@@ -157,7 +194,11 @@ fun AppNavigator() {
                             navController.navigateUp()
                         },
                         isFavoritedAlready = commonViewModel.isCurrentCatFav,
-                        favUnfav = viewModel.favoriteUnfav
+                        favUnfav = viewModel.favoriteUnfav,
+                        onAddToCart = {
+                                viewModel.onEvent(DetailsEvent.AddToCart(it))
+                                //navController.navigate(Route.CartRoute.route)
+                        }
                     )
                 }
             }
@@ -174,6 +215,19 @@ fun AppNavigator() {
                         }
                     }
                 )
+            }
+            composable(route = Route.CartRoute.route) { backStackEntry ->
+                val viewModel: CartViewModel = hiltViewModel()
+
+                CartScreen(
+                    viewModel = viewModel,
+                    onBack = { navController.navigateUp()},
+                    onClick = {
+                    commonViewModel.viewModelScope.launch {
+                        commonViewModel.onCatClicked(it)
+                        navigateToDetails(navController = navController)
+                    }
+                })
             }
         }
     }
