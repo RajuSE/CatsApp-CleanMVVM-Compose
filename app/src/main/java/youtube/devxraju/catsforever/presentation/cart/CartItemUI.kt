@@ -155,7 +155,7 @@ fun CartItemRow(
         IconButton(modifier = Modifier.padding(start = 5.dp)
             .border(2.dp, green, shape = CircleShape)
             .size(36.dp),
-            onClick = { viewModel.increaseQty(cartItem)}) {
+            onClick = { viewModel.onEvent(CartEvent.IncreaseQuantity(cartItem))}) {
             Icon(Icons.Filled.KeyboardArrowUp, tint = green, contentDescription = "Increase Quantity")
         }
         Spacer(modifier = Modifier.width(7.dp))
@@ -173,13 +173,13 @@ fun CartItemRow(
         IconButton(modifier = Modifier
             .border(1.dp, Color.Red, shape = CircleShape)
             .size(36.dp),
-            onClick = { viewModel.decreaseQty(cartItem) }) {
+            onClick = { viewModel.onEvent(CartEvent.DecreaseQuantity(cartItem)) }) {
             Icon(Icons.Filled.KeyboardArrowDown, tint = Color.Red, contentDescription = "Decrease Quantity")
         }
         Spacer(modifier = Modifier.width(5.dp))
         IconButton(
             modifier = Modifier.weight(1f),
-            onClick = { viewModel.removeItem(cartItem = cartItem) }) {
+            onClick = { viewModel.onEvent(CartEvent.RemoveItem(cartItem)) }) {
             Icon(Icons.Default.Delete, contentDescription = "Remove Item")
         }
 

@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import youtube.devxraju.catsforever.R
 import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding0
 import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding1
+import youtube.devxraju.catsforever.presentation.Dimens.MediumPaddingSmall
 import youtube.devxraju.catsforever.presentation.common.CatsList
 import youtube.devxraju.catsforever.theme.CatsAppTheme
 
@@ -37,7 +39,7 @@ fun HomeRoute(
         ) {
 
             CatsList(
-                modifier = Modifier.padding(horizontal = MediumPadding1),
+                modifier = Modifier.padding(horizontal = MediumPaddingSmall),
                 cats = cats,
                 onClick = navigateToDetails
             )
