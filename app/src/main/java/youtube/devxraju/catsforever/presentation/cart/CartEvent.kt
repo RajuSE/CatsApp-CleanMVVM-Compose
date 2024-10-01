@@ -1,6 +1,6 @@
 package youtube.devxraju.catsforever.presentation.cart
 
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 
 sealed class CartEvent {
     data class IncreaseQuantity(val item: CatBreedsResponseItem): CartEvent()

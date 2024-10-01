@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import youtube.devxraju.catsforever.R
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import youtube.devxraju.catsforever.presentation.Dimens.CatCardSize
 import youtube.devxraju.catsforever.presentation.Dimens.ExtraSmallPadding
 import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding3
@@ -129,8 +129,6 @@ fun CatCardPreview() {
                 alt_names = null,
                 cfa_url = null,
                 child_friendly = 4734,
-                country_code = "New Zealand",
-                country_codes = "Algeria",
                 description = "This is description to test the ui with multiple lines to see how it appears devxraju",
                 dog_friendly = 9450,
                 energy_level = 5296,
@@ -149,8 +147,6 @@ fun CatCardPreview() {
                 origin = "sagittis",
                 rare = 2512,
                 reference_image_id = "0XYvRd7oD",
-                rex = 9258,
-                shedding_level = 1900,
                 short_legs = 2328,
                 social_needs = 1863,
                 stranger_friendly = 1502,

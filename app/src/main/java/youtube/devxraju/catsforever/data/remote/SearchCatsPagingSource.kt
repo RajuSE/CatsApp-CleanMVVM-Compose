@@ -2,7 +2,8 @@ package youtube.devxraju.catsforever.data.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.data.remote.mapper.toModel
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import java.lang.Exception
 
 class SearchCatsPagingSource(
@@ -22,7 +23,9 @@ class SearchCatsPagingSource(
         val page = params.key ?: 1
         return try {
             println("searchCats called q:$searchQuery")
-            val catsResponse = api.searchCats(searchQuery = searchQuery)
+            val catsResponse = api.searchCats(searchQuery = searchQuery).map {
+                it.toModel()
+            }
 
             val cats = catsResponse.distinctBy { it.id } //Remove duplicates
             val catsMutable=cats.toMutableList()

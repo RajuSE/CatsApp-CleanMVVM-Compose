@@ -36,7 +36,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import youtube.devxraju.catsforever.R
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding1
 import youtube.devxraju.catsforever.presentation.app_navigator.components.BottomNavigationItem
 import youtube.devxraju.catsforever.presentation.app_navigator.components.CatsBottomNavigation

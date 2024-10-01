@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import youtube.devxraju.catsforever.R
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding1
 import youtube.devxraju.catsforever.presentation.common.CatsListFavourites
 

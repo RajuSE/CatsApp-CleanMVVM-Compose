@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import youtube.devxraju.catsforever.R
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import youtube.devxraju.catsforever.presentation.Dimens.ExtraSmallPadding
 import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding0
 import youtube.devxraju.catsforever.presentation.Dimens.MediumPadding1

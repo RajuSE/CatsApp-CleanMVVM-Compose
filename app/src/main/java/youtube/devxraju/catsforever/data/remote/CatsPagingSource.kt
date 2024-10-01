@@ -3,7 +3,8 @@ package youtube.devxraju.catsforever.data.remote
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import youtube.devxraju.catsforever.data.local.CatsDao
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.data.remote.mapper.toModel
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 
 class CatsPagingSource(
     private val catsApi: CatsApi,
@@ -23,7 +24,9 @@ class CatsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CatBreedsResponseItem> {
         val page = params.key ?: 2
         return try {
-            val catsResponse = catsApi.getCatsApi(limit = 10, page = page)
+            val catsResponse = catsApi.getCatsApi(limit = 10, page = page).map {
+                it.toModel()
+            }
             totalDataCount += catsResponse.size
             val cats = catsResponse.distinctBy { it.id } //Remove duplicates
             val catsMutable=cats.toMutableList()

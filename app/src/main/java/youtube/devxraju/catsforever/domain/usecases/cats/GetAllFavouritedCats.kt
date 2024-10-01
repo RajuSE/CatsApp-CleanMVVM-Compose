@@ -1,7 +1,7 @@
 package youtube.devxraju.catsforever.domain.usecases.cats
 
 import youtube.devxraju.catsforever.data.local.CatsDao
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

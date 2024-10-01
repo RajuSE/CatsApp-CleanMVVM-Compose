@@ -7,7 +7,7 @@ import youtube.devxraju.catsforever.data.local.CatsDao
 import youtube.devxraju.catsforever.data.remote.CatsPagingSource
 import youtube.devxraju.catsforever.data.remote.CatsApi
 import youtube.devxraju.catsforever.data.remote.SearchCatsPagingSource
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import youtube.devxraju.catsforever.domain.repository.CatsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -1,22 +1,18 @@
-package youtube.devxraju.catsforever.data.remote.dto
+package youtube.devxraju.catsforever.domain.models
 
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-class CatBreedsResponse : ArrayList<CatsItem>()
-
 @Parcelize
-//@Entity
-data class CatsItem(
+@Entity
+data class CatBreedsResponseItem(
     val adaptability: Int,
     val affection_level: Int,
     val alt_names: String?,
     val cfa_url: String?,
     val child_friendly: Int,
-    val country_code: String,
-    val country_codes: String,
     val description: String,
     val dog_friendly: Int,
     val energy_level: Int,
@@ -25,7 +21,7 @@ data class CatsItem(
     val hairless: Int,
     val health_issues: Int,
     val hypoallergenic: Int,
-    val id: String,
+    @PrimaryKey val id: String,
     val indoor: Int,
     val intelligence: Int,
     val lap: Int,
@@ -35,8 +31,6 @@ data class CatsItem(
     val origin: String,
     val rare: Int,
     val reference_image_id: String,
-    val rex: Int,
-    val shedding_level: Int,
     val short_legs: Int,
     val social_needs: Int,
     val stranger_friendly: Int,
@@ -51,4 +45,3 @@ data class CatsItem(
     val isAddedToCart: Int,
     val isFavourited:Int
 ) : Parcelable
-

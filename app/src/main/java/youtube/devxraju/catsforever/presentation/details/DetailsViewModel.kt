@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import youtube.devxraju.catsforever.domain.usecases.cats.UnFavouriteCat
 import youtube.devxraju.catsforever.domain.usecases.cats.GetCatDetailsFromDB
 import youtube.devxraju.catsforever.domain.usecases.cats.UpsertCat

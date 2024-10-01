@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
-import youtube.devxraju.catsforever.data.remote.dto.CatBreedsResponseItem
+import youtube.devxraju.catsforever.domain.models.CatBreedsResponseItem
 import youtube.devxraju.catsforever.domain.usecases.cart.GetAllCartItemsUseCase
 import youtube.devxraju.catsforever.domain.usecases.cart.RemoveFromCartUsecase
 import youtube.devxraju.catsforever.domain.usecases.cart.UpdateQtyCartUsecase

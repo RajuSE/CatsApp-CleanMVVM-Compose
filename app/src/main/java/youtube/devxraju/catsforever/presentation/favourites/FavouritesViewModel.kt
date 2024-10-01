@@ -23,7 +23,7 @@ class FavouritesViewModel @Inject constructor(
     }
 
     private fun getCats() {
-        getSavedCatsUseCase().onEach {
+        getSavedCatsUseCase.invoke().onEach {
             _state.value = _state.value.copy(cats = it)
         }.launchIn(viewModelScope)
     }
